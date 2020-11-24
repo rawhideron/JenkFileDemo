@@ -16,6 +16,8 @@
 
 	<properties>
 		<java.version>11</java.version>
+		<jacoco.version>0.7.5.201505241946</jacoco.version>
+		<junit.version>4.12</junit.version>
 	</properties>
 
 	<dependencies>
@@ -29,7 +31,42 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
+	<executions>
+		<execution>
+			<id>prepare-agent</id>
+			<goals>
+				<goal>prepare-agent</goal>
+			</goals>
+		</execution>
+		<execution>
+			<id>report</id>
+			<phase>prepare-package</phase>
+			<goals>
+				<goal>report</goal>
+			</goals>
+		</execution>
+		<execution>
+				<id>post-unit-test</id>
+				<phase>test</phase>
+			<goals>
+			<goal>report</goal>
+				</goals>
+			<configuration>
+				<!-- Sets the path to the file which contains the execution data. -->
+
+				<dataFile>target/jacoco.exec</dataFile>
+				<!-- Sets the output directory for the code coverage report. -->
+				<outputDirectory>target/jacoco-ut</outputDirectory>
+			</configuration>
+		</execution>
+	</executions>
 
 	<build>
 		<plugins>
